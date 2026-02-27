@@ -62,7 +62,7 @@ const UserProfile: FunctionComponent = () => {
                 if (user.PrimaryImageTag) {
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-                } else if (appHost.supports(AppFeature.FileInput) && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                } else if (appHost.supports(AppFeature.FileInput) && (__PROXY_MODE__ || loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }

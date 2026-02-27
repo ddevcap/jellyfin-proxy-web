@@ -6,6 +6,7 @@ import DrawerHeaderLink from 'apps/experimental/components/drawers/DrawerHeaderL
 import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
 import ServerDrawerSection from './sections/ServerDrawerSection';
+import ProxyDrawerSection from './sections/ProxyDrawerSection';
 import DevicesDrawerSection from './sections/DevicesDrawerSection';
 import LiveTvDrawerSection from './sections/LiveTvDrawerSection';
 import AdvancedDrawerSection from './sections/AdvancedDrawerSection';
@@ -26,11 +27,16 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
                 <DrawerHeaderLink />
             </ListItem>
         </List>
-        <ServerDrawerSection />
-        <DevicesDrawerSection />
-        <LiveTvDrawerSection />
-        <PluginDrawerSection />
-        <AdvancedDrawerSection />
+        {!__PROXY_MODE__ && (
+            <>
+                <ServerDrawerSection />
+                <DevicesDrawerSection />
+                <LiveTvDrawerSection />
+                <PluginDrawerSection />
+                <AdvancedDrawerSection />
+            </>
+        )}
+        <ProxyDrawerSection />
     </ResponsiveDrawer>
 );
 

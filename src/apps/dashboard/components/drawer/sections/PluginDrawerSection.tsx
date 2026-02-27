@@ -13,9 +13,11 @@ import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useCo
 
 const PluginDrawerSection = () => {
     const {
-        data: pagesInfo,
+        data: pagesInfoRaw,
         error
     } = useConfigurationPages({ enableInMainMenu: true });
+
+    const pagesInfo = Array.isArray(pagesInfoRaw) ? pagesInfoRaw : undefined;
 
     useEffect(() => {
         if (error) console.error('[PluginDrawerSection] unable to fetch plugin config pages', error);

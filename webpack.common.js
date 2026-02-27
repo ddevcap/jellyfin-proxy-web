@@ -64,7 +64,8 @@ const config = {
             __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
             __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version),
             __USE_SYSTEM_FONTS__: !!JSON.parse(process.env.USE_SYSTEM_FONTS || '0'),
-            __WEBPACK_SERVE__: !!JSON.parse(process.env.WEBPACK_SERVE || '0')
+            __WEBPACK_SERVE__: !!JSON.parse(process.env.WEBPACK_SERVE || '0'),
+            __PROXY_MODE__: !!JSON.parse(process.env.PROXY_MODE || '0')
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({

@@ -1,9 +1,9 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ManageAccounts from '@mui/icons-material/ManageAccounts';
 import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
 import Close from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Download from '@mui/icons-material/Download';
-import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
 import Settings from '@mui/icons-material/Settings';
@@ -91,24 +91,40 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     {globalize.translate('Profile')}
                 </ListItemText>
             </MenuItem>
-            <MenuItem
-                component={Link}
-                to='/mypreferencesmenu'
-                onClick={onMenuClose}
-            >
-                <ListItemIcon>
-                    <Settings />
-                </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('Settings')}
-                </ListItemText>
-            </MenuItem>
+            {__PROXY_MODE__ && (
+                <MenuItem
+                    component={Link}
+                    to='/dashboard/proxyusers'
+                    onClick={onMenuClose}
+                >
+                    <ListItemIcon>
+                        <ManageAccounts />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('HeaderProxyManagement')}
+                    </ListItemText>
+                </MenuItem>
+            )}
+            {!__PROXY_MODE__ && (
+                <MenuItem
+                    component={Link}
+                    to='/mypreferencesmenu'
+                    onClick={onMenuClose}
+                >
+                    <ListItemIcon>
+                        <Settings />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('Settings')}
+                    </ListItemText>
+                </MenuItem>
+            )}
 
-            {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
+            {!__PROXY_MODE__ && (appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
                 <Divider />
             )}
 
-            {appHost.supports(AppFeature.DownloadManagement) && (
+            {!__PROXY_MODE__ && appHost.supports(AppFeature.DownloadManagement) && (
                 <MenuItem
                     onClick={onDownloadManagerClick}
                 >
@@ -121,7 +137,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
 
-            {appHost.supports(AppFeature.ClientSettings) && (
+            {!__PROXY_MODE__ && appHost.supports(AppFeature.ClientSettings) && (
                 <MenuItem
                     onClick={onClientSettingsClick}
                 >
@@ -135,7 +151,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             )}
 
             {/* ADMIN LINKS */}
-            {user?.Policy?.IsAdministrator && ([
+            {!__PROXY_MODE__ && user?.Policy?.IsAdministrator && ([
                 <Divider key='admin-links-divider' />,
                 <MenuItem
                     key='admin-dashboard-link'
@@ -143,27 +159,15 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     to='/dashboard'
                     onClick={onMenuClose}
                 >
-
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary={globalize.translate('TabDashboard')} />
-                </MenuItem>,
-                <MenuItem
-                    key='admin-metadata-link'
-                    component={Link}
-                    to='/metadata'
-                    onClick={onMenuClose}
-                >
-                    <ListItemIcon>
-                        <Edit />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('MetadataManager')} />
                 </MenuItem>
             ])}
 
             <Divider />
-            {isQuickConnectEnabled && (
+            {!__PROXY_MODE__ && isQuickConnectEnabled && (
                 <MenuItem
                     component={Link}
                     to='/quickconnect'

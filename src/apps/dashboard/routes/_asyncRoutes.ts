@@ -1,7 +1,7 @@
 import type { AsyncRoute } from 'components/router/AsyncRoute';
 import { AppType } from 'constants/appType';
 
-export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
+const nativeAdminRoutes: AsyncRoute[] = __PROXY_MODE__ ? [] : [
     { path: '', type: AppType.Dashboard },
     { path: 'activity', type: AppType.Dashboard },
     { path: 'backups', type: AppType.Dashboard },
@@ -32,4 +32,21 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'users/parentalcontrol', type: AppType.Dashboard },
     { path: 'users/password', type: AppType.Dashboard },
     { path: 'users/profile', type: AppType.Dashboard }
+];
+
+const proxyRoutes: AsyncRoute[] = __PROXY_MODE__ ? [
+    { path: 'proxyusers', type: AppType.Dashboard },
+    { path: 'proxyusers/add', type: AppType.Dashboard },
+    { path: 'proxyusers/profile', type: AppType.Dashboard },
+    { path: 'proxybackends', type: AppType.Dashboard },
+    { path: 'proxybackends/add', type: AppType.Dashboard },
+    { path: 'proxybackends/detail', type: AppType.Dashboard }
+] : [];
+
+// In proxy mode, include a redirect from /dashboard to /dashboard/proxyusers
+export const PROXY_MODE_INDEX_REDIRECT = __PROXY_MODE__ ? '/dashboard/proxyusers' : undefined;
+
+export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
+    ...nativeAdminRoutes,
+    ...proxyRoutes
 ];
