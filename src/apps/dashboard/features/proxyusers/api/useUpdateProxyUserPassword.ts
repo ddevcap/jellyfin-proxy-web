@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
 import { UpdateProxyUserPasswordRequest } from 'types/proxyUser';
 
 interface UpdatePasswordParams {
@@ -8,20 +7,15 @@ interface UpdatePasswordParams {
 }
 
 export const useUpdateProxyUserPassword = () => {
-    const { api } = useApi();
-
     return useMutation({
         mutationFn: async ({ userId, data }: UpdatePasswordParams) => {
-            await api!.axiosInstance.put(
-                `${api!.basePath}/proxy/users/${userId}/password`,
-                data,
-                {
-                    headers: {
-                        ...api!.configuration.baseOptions?.headers
-                    }
-                }
-            );
+            const url = window.ApiClient.getUrl(`proxy/users/${userId}/password`);
+            await window.ApiClient.ajax({
+                type: 'PUT',
+                url,
+                data: JSON.stringify(data),
+                contentType: 'application/json'
+            });
         }
     });
 };
-

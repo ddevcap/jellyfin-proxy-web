@@ -1,7 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
-import type { Api } from '@jellyfin/sdk';
-import type { AxiosRequestConfig } from 'axios';
 import type { BackendUserMapping } from 'types/proxyUser';
 
 export const QUERY_KEY = 'BackendUsers';
@@ -16,18 +14,11 @@ export const toBackendUserMapping = (raw: any): BackendUserMapping => ({
     enabled: raw.enabled
 });
 
-const fetchBackendUsers = async (
-    api: Api,
-    backendId: string,
-    options?: AxiosRequestConfig
-) => {
-    const response = await api.axiosInstance.get(
-        `${api.basePath}/proxy/backends/${backendId}/users`,
-        { ...options, headers: { ...api.configuration.baseOptions?.headers } }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ) as { data: any[] };
-
-    return response.data.map(toBackendUserMapping);
+const fetchBackendUsers = async (backendId: string) => {
+    const url = window.ApiClient.getUrl(`proxy/backends/${backendId}/users`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: any[] = await window.ApiClient.getJSON(url);
+    return data.map(toBackendUserMapping);
 };
 
 export const useBackendUsers = (backendId?: string) => {
@@ -35,8 +26,7 @@ export const useBackendUsers = (backendId?: string) => {
 
     return useQuery({
         queryKey: [QUERY_KEY, backendId],
-        queryFn: ({ signal }) => fetchBackendUsers(api!, backendId!, { signal }),
+        queryFn: () => fetchBackendUsers(backendId!),
         enabled: !!api && !!backendId && __PROXY_MODE__
     });
 };
-

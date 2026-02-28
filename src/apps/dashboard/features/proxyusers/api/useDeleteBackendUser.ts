@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
 import { QUERY_KEY as BACKEND_USERS_QUERY_KEY } from './useBackendUsers';
 
@@ -9,18 +8,13 @@ interface DeleteBackendUserParams {
 }
 
 export const useDeleteBackendUser = () => {
-    const { api } = useApi();
-
     return useMutation({
         mutationFn: async ({ backendId, mappingId }: DeleteBackendUserParams) => {
-            await api!.axiosInstance.delete(
-                `${api!.basePath}/proxy/backends/${backendId}/users/${mappingId}`,
-                { headers: { ...api!.configuration.baseOptions?.headers } }
-            );
+            const url = window.ApiClient.getUrl(`proxy/backends/${backendId}/users/${mappingId}`);
+            await window.ApiClient.ajax({ type: 'DELETE', url });
         },
         onSuccess: (_, { backendId }) => {
             void queryClient.invalidateQueries({ queryKey: [BACKEND_USERS_QUERY_KEY, backendId] });
         }
     });
 };
-
