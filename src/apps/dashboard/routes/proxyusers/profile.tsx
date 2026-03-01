@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -19,8 +19,12 @@ const ProxyUserEdit = () => {
 
     const { data: user, isPending } = useProxyUser(userId || undefined);
     const updateUser = useUpdateProxyUser();
-    const element = useRef<HTMLDivElement>(null);
+    const [displayName, setDisplayName] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+
+    const handleDisplayNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setDisplayName(e.target.value);
+    }, []);
 
     const handleAdminChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setIsAdmin(e.target.checked);
@@ -28,46 +32,32 @@ const ProxyUserEdit = () => {
 
     // Populate form once user data is loaded
     useEffect(() => {
-        const page = element.current;
-        if (!page || !user) return;
+        if (!user) return;
 
-        (page.querySelector('#txtDisplayName') as HTMLInputElement).value = user.displayName || '';
+        setDisplayName(user.displayName || '');
         setIsAdmin(user.isAdmin);
     }, [user]);
 
-    // Wire up save button
-    useEffect(() => {
-        const page = element.current;
-        if (!page || !userId) return;
+    const handleSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault();
+        if (!userId) return;
 
-        const saveUser = () => {
-            loading.show();
+        loading.show();
 
-            const displayName = (page.querySelector('#txtDisplayName') as HTMLInputElement).value;
-
-            updateUser.mutate(
-                { userId, data: { displayName, isAdmin } },
-                {
-                    onSuccess: () => {
-                        loading.hide();
-                        navigate('/dashboard/proxyusers', { state: { openSavedToast: true } });
-                    },
-                    onError: (error) => {
-                        loading.hide();
-                        console.error('[proxyuseredit] failed to update user', error);
-                    }
+        updateUser.mutate(
+            { userId, data: { displayName, isAdmin } },
+            {
+                onSuccess: () => {
+                    loading.hide();
+                    navigate('/dashboard/proxyusers', { state: { openSavedToast: true } });
+                },
+                onError: (error) => {
+                    loading.hide();
+                    console.error('[proxyuseredit] failed to update user', error);
                 }
-            );
-        };
-
-        const onSubmit = (e: Event) => {
-            saveUser();
-            e.preventDefault();
-        };
-        const submitButton = page.querySelector('.btnSave') as HTMLButtonElement;
-        submitButton?.addEventListener('click', onSubmit);
-        return () => submitButton?.removeEventListener('click', onSubmit);
-    }, [userId, navigate, updateUser]);
+            }
+        );
+    }, [userId, displayName, isAdmin, navigate, updateUser]);
 
     if (isPending || !user) {
         return <Loading />;
@@ -75,8 +65,8 @@ const ProxyUserEdit = () => {
 
     return (
         <Page id='proxyUserEditPage' className='mainAnimatedPage type-interior'>
-            <div ref={element} className='content-primary'>
-                <form>
+            <div className='content-primary'>
+                <form onSubmit={handleSubmit}>
                     <div className='verticalSection'>
                         <SectionTitleContainer title={user.displayName || user.username} />
                     </div>
@@ -85,6 +75,8 @@ const ProxyUserEdit = () => {
                             type='text'
                             id='txtDisplayName'
                             label={globalize.translate('LabelDisplayName')}
+                            value={displayName}
+                            onChange={handleDisplayNameChange}
                         />
                     </div>
                     <FormControlLabel
