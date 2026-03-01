@@ -8,6 +8,8 @@ interface PlaylistAddIconButtonProps {
 }
 
 const PlaylistAddIconButton: FC<PlaylistAddIconButtonProps> = ({ className }) => {
+    if (__PROXY_MODE__) return null;
+
     return (
         <IconButton
             className={className}

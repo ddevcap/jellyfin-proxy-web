@@ -100,6 +100,10 @@ function onDrop(evt, itemsContainer) {
         return;
     }
 
+    if (__PROXY_MODE__) {
+        return;
+    }
+
     const serverId = el.getAttribute('data-serverid');
     const apiClient = ServerConnections.getApiClient(serverId);
 

@@ -35,17 +35,19 @@ async function init(page, item) {
     const api = toApi(apiClient);
 
     let isEditable = false;
-    const { data } = await getPlaylistsApi(api)
-        .getPlaylistUser({
-            playlistId: item.Id,
-            userId: apiClient.getCurrentUserId()
-        })
-        .catch(err => {
-            // If a user doesn't have access, then the request will 404 and throw
-            console.info('[PlaylistViewer] Failed to fetch playlist permissions', err);
-            return { data: {} };
-        });
-    isEditable = !!data.CanEdit;
+    if (!__PROXY_MODE__) {
+        const { data } = await getPlaylistsApi(api)
+            .getPlaylistUser({
+                playlistId: item.Id,
+                userId: apiClient.getCurrentUserId()
+            })
+            .catch(err => {
+                // If a user doesn't have access, then the request will 404 and throw
+                console.info('[PlaylistViewer] Failed to fetch playlist permissions', err);
+                return { data: {} };
+            });
+        isEditable = !!data.CanEdit;
+    }
 
     const elem = page.querySelector('#childrenContent .itemsContainer');
     elem.classList.add('vertical-list');

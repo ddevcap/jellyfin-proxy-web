@@ -186,11 +186,13 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            menuItems.push({
-                name: globalize.translate('AddToPlaylist'),
-                id: 'playlist',
-                icon: 'playlist_add'
-            });
+            if (!__PROXY_MODE__) {
+                menuItems.push({
+                    name: globalize.translate('AddToPlaylist'),
+                    id: 'playlist',
+                    icon: 'playlist_add'
+                });
+            }
 
             // TODO: Be more dynamic based on what is selected
             if (!__PROXY_MODE__ && user.Policy.EnableContentDeletion) {

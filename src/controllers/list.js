@@ -652,7 +652,7 @@ class ItemsView {
         function setTitle(item) {
             LibraryMenu.setTitle(getTitle(item) || '');
 
-            if (item && item.CollectionType === CollectionType.Playlists) {
+            if (!__PROXY_MODE__ && item && item.CollectionType === CollectionType.Playlists) {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);
             } else {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), true);

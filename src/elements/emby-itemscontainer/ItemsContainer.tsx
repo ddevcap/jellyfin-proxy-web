@@ -134,6 +134,10 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 return;
             }
 
+            if (__PROXY_MODE__) {
+                return;
+            }
+
             if (!itemId) throw new Error('null itemId');
 
             try {

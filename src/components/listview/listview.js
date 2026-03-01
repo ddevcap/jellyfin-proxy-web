@@ -448,7 +448,7 @@ export function getListViewHtml(options) {
         html += '<div class="listViewUserDataButtons">';
 
         if (!clickEntireItem) {
-            if (options.addToListButton) {
+            if (!__PROXY_MODE__ && options.addToListButton) {
                 html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add" aria-hidden="true"></span></button>';
             }
 

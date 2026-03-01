@@ -38,7 +38,7 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
 
     return (
         <Box className='listViewUserDataButtons'>
-            {listOptions.addToListButton && (
+            {!__PROXY_MODE__ && listOptions.addToListButton && (
                 <PlaylistAddIconButton
                     className='paper-icon-button-light listItemButton itemAction'
                 />

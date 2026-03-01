@@ -134,7 +134,7 @@ function showContextMenu(card, options = {}) {
             // Fetch the current user
             apiClient.getCurrentUser(),
             // Fetch playlist perms if item is a child of a playlist
-            playlistId ?
+            !__PROXY_MODE__ && playlistId ?
                 getPlaylistsApi(api)
                     .getPlaylistUser({
                         playlistId,
@@ -309,7 +309,9 @@ function executeAction(card, target, action) {
     } else if (action === 'playtrailer') {
         getItem(target).then(playTrailer);
     } else if (action === 'addtoplaylist') {
-        getItem(target).then(addToPlaylist);
+        if (!__PROXY_MODE__) {
+            getItem(target).then(addToPlaylist);
+        }
     } else if (action === 'custom') {
         const customAction = target.getAttribute('data-customaction');
 

@@ -810,10 +810,15 @@ export default function () {
             playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
         });
         context.querySelector('.btnSavePlaylist').addEventListener('click', savePlaylist);
+        if (__PROXY_MODE__) {
+            context.querySelector('.btnSavePlaylist').classList.add('hide');
+        }
         context.querySelector('.btnTogglePlaylist').addEventListener('click', function () {
             if (context.querySelector('.playlist').classList.contains('hide')) {
                 context.querySelector('.playlist').classList.remove('hide');
-                context.querySelector('.btnSavePlaylist').classList.remove('hide');
+                if (!__PROXY_MODE__) {
+                    context.querySelector('.btnSavePlaylist').classList.remove('hide');
+                }
                 context.querySelector('.volumecontrol').classList.add('hide');
                 if (layoutManager.mobile) {
                     context.querySelector('.playlistSectionButton').classList.remove('playlistSectionButtonTransparent');
@@ -881,7 +886,9 @@ export default function () {
             optionsSection.classList.remove('align-items-center', 'justify-content-center');
             optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
             context.querySelector('.playlist').classList.remove('hide');
-            context.querySelector('.btnSavePlaylist').classList.remove('hide');
+            if (!__PROXY_MODE__) {
+                context.querySelector('.btnSavePlaylist').classList.remove('hide');
+            }
             context.classList.add('padded-bottom');
         } else {
             optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);

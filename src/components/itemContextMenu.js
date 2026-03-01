@@ -146,7 +146,7 @@ export async function getCommands(options) {
             });
         }
 
-        if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
+        if (!__PROXY_MODE__ && itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
             commands.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'addtoplaylist',
@@ -219,7 +219,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (item.Type === BaseItemKind.Playlist) {
+    if (!__PROXY_MODE__ && item.Type === BaseItemKind.Playlist) {
         const _canEditPlaylist = await canEditPlaylist(user, item);
         if (_canEditPlaylist) {
             commands.push({
@@ -304,7 +304,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
+    if (!__PROXY_MODE__ && item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
             id: 'removefromplaylist',
@@ -312,7 +312,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
+    if (!__PROXY_MODE__ && item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
         commands.push({
             name: globalize.translate('MoveToTop'),
             id: 'movetotop',
@@ -320,7 +320,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
+    if (!__PROXY_MODE__ && item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
         commands.push({
             name: globalize.translate('MoveToBottom'),
             id: 'movetobottom',
