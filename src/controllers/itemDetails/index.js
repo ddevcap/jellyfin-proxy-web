@@ -584,7 +584,7 @@ function reloadFromItem(instance, page, params, item, user) {
         return g.Type == 'Grouping';
     });
 
-    if (user.Policy.IsAdministrator && groupedVersions.length) {
+    if (!__PROXY_MODE__ && user.Policy.IsAdministrator && groupedVersions.length) {
         page.querySelector('.btnSplitVersions').classList.remove('hide');
     } else {
         page.querySelector('.btnSplitVersions').classList.add('hide');

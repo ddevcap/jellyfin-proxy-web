@@ -138,7 +138,7 @@ export async function getCommands(options) {
             });
         }
 
-        if (itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
+        if (!__PROXY_MODE__ && itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
             commands.push({
                 name: globalize.translate('AddToCollection'),
                 id: 'addtocollection',
@@ -205,7 +205,7 @@ export async function getCommands(options) {
         }
     }
 
-    if (item.CanDelete && options.deleteItem !== false) {
+    if (!__PROXY_MODE__ && item.CanDelete && options.deleteItem !== false) {
         commands.push({
             name: getDeleteLabel(item.Type),
             id: 'delete',
@@ -231,7 +231,7 @@ export async function getCommands(options) {
     }
 
     const canEdit = itemHelper.canEdit(user, item);
-    if (canEdit && options.edit !== false && item.Type !== 'SeriesTimer') {
+    if (!__PROXY_MODE__ && canEdit && options.edit !== false && item.Type !== 'SeriesTimer') {
         const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
         commands.push({
             name: text,
@@ -240,7 +240,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (itemHelper.canEditImages(user, item) && options.editImages !== false) {
+    if (!__PROXY_MODE__ && itemHelper.canEditImages(user, item) && options.editImages !== false) {
         commands.push({
             name: globalize.translate('EditImages'),
             id: 'editimages',
@@ -248,7 +248,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
+    if (!__PROXY_MODE__ && itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
         commands.push({
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
@@ -256,7 +256,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (itemHelper.canEditLyrics(user, item)) {
+    if (!__PROXY_MODE__ && itemHelper.canEditLyrics(user, item)) {
         commands.push({
             name: globalize.translate('EditLyrics'),
             id: 'editlyrics',
@@ -264,7 +264,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (options.identify !== false && itemHelper.canIdentify(user, item)) {
+    if (!__PROXY_MODE__ && options.identify !== false && itemHelper.canIdentify(user, item)) {
         commands.push({
             name: globalize.translate('Identify'),
             id: 'identify',
@@ -296,7 +296,7 @@ export async function getCommands(options) {
         }
     }
 
-    if (itemHelper.canRefreshMetadata(item, user)) {
+    if (!__PROXY_MODE__ && itemHelper.canRefreshMetadata(item, user)) {
         commands.push({
             name: globalize.translate('RefreshMetadata'),
             id: 'refresh',

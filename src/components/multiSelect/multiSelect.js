@@ -178,11 +178,13 @@ function showMenuForSelectedItems(e) {
                 icon: 'select_all'
             });
 
-            menuItems.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'add'
-            });
+            if (!__PROXY_MODE__) {
+                menuItems.push({
+                    name: globalize.translate('AddToCollection'),
+                    id: 'addtocollection',
+                    icon: 'add'
+                });
+            }
 
             menuItems.push({
                 name: globalize.translate('AddToPlaylist'),
@@ -191,7 +193,7 @@ function showMenuForSelectedItems(e) {
             });
 
             // TODO: Be more dynamic based on what is selected
-            if (user.Policy.EnableContentDeletion) {
+            if (!__PROXY_MODE__ && user.Policy.EnableContentDeletion) {
                 menuItems.push({
                     name: globalize.translate('Delete'),
                     id: 'delete',
@@ -203,7 +205,7 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator) {
+            if (!__PROXY_MODE__ && user.Policy.IsAdministrator) {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
@@ -225,7 +227,7 @@ function showMenuForSelectedItems(e) {
 
             // this assures that if the user can refresh metadata for the first item
             // they can refresh metadata for all items
-            if (itemHelper.canRefreshMetadata(firstItem, user)) {
+            if (!__PROXY_MODE__ && itemHelper.canRefreshMetadata(firstItem, user)) {
                 menuItems.push({
                     name: globalize.translate('RefreshMetadata'),
                     id: 'refresh',
