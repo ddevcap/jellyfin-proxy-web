@@ -41,6 +41,21 @@ function setMediaInfo(user, page, item) {
     if (item.MediaSources.length > 1) {
         html = `<br/>${html}`;
     }
+    if (__PROXY_MODE__ && item.BackendName) {
+        const backendAttributes = [];
+        backendAttributes.push(createAttribute('Name', item.BackendName));
+        if (item.BackendUrl) {
+            backendAttributes.push(createAttribute('URL', item.BackendUrl, true));
+        }
+        if (item.BackendId) {
+            backendAttributes.push(createAttribute('ID', item.BackendId, true));
+        }
+        const backendHtml = '<div class="mediaInfoStream">'
+            + `\n<h2 class="mediaInfoStreamType">Backend${copyButtonHtml}</h2>\n`
+            + backendAttributes.join('<br/>')
+            + '</div>';
+        html = backendHtml + html;
+    }
     const mediaInfoContent = page.querySelector('#mediaInfoContent');
     mediaInfoContent.innerHTML = html;
 
