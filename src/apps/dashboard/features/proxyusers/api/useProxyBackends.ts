@@ -9,8 +9,7 @@ export const toProxyBackend = (raw: any): ProxyBackend => ({
     id: raw.id,
     name: raw.name,
     url: raw.url,
-    jellyfinServerId: raw.jellyfin_server_id,
-    prefix: raw.prefix,
+    externalId: raw.external_id,
     enabled: raw.enabled,
     createdAt: raw.created_at
 });

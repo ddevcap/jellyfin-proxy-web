@@ -12,8 +12,7 @@ export const useCreateProxyBackend = () => {
                 url,
                 data: JSON.stringify({
                     name: request.name,
-                    url: request.url,
-                    prefix: request.prefix
+                    url: request.url
                 }),
                 contentType: 'application/json',
                 dataType: 'json'

@@ -137,6 +137,9 @@ async function loadPlugins() {
     console.dir(pluginManager);
 
     let list = await getPlugins();
+    // NOTE: In proxy mode, casting is gated at the UI level (RemotePlayButton / headerCastButton)
+    // based on the user's directStream flag, not at plugin load time, because plugins load before
+    // user authentication.
     if (!appHost.supports(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
         list = list.filter(plugin => !plugin.startsWith('sessionPlayer')

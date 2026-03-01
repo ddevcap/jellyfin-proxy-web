@@ -21,6 +21,7 @@ const ProxyUserEdit = () => {
     const updateUser = useUpdateProxyUser();
     const [displayName, setDisplayName] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [directStream, setDirectStream] = useState(false);
 
     const handleDisplayNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setDisplayName(e.target.value);
@@ -30,12 +31,17 @@ const ProxyUserEdit = () => {
         setIsAdmin(e.target.checked);
     }, []);
 
+    const handleDirectStreamChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setDirectStream(e.target.checked);
+    }, []);
+
     // Populate form once user data is loaded
     useEffect(() => {
         if (!user) return;
 
         setDisplayName(user.displayName || '');
         setIsAdmin(user.isAdmin);
+        setDirectStream(user.directStream);
     }, [user]);
 
     const handleSubmit = useCallback((e: React.FormEvent) => {
@@ -45,7 +51,7 @@ const ProxyUserEdit = () => {
         loading.show();
 
         updateUser.mutate(
-            { userId, data: { displayName, isAdmin } },
+            { userId, data: { displayName, isAdmin, directStream } },
             {
                 onSuccess: () => {
                     loading.hide();
@@ -57,7 +63,7 @@ const ProxyUserEdit = () => {
                 }
             }
         );
-    }, [userId, displayName, isAdmin, navigate, updateUser]);
+    }, [userId, displayName, isAdmin, directStream, navigate, updateUser]);
 
     if (isPending || !user) {
         return <Loading />;
@@ -89,6 +95,20 @@ const ProxyUserEdit = () => {
                         }
                         label={globalize.translate('OptionMakeAdmin')}
                     />
+                    <br />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                id='chkDirectStream'
+                                checked={directStream}
+                                onChange={handleDirectStreamChange}
+                            />
+                        }
+                        label={globalize.translate('LabelDirectStream')}
+                    />
+                    <div className='fieldDescription'>
+                        {globalize.translate('LabelDirectStreamHelp')}
+                    </div>
                     <br />
                     <div>
                         <Button

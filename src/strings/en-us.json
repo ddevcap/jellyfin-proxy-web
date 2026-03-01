@@ -1883,11 +1883,8 @@
     "ButtonAddBackend": "Add Backend",
     "LabelBackendURL": "Backend URL",
     "LabelBackendURLHelp": "Full URL of the Jellyfin backend server, e.g. http://192.168.1.10:8096. http:// will be prepended automatically if omitted.",
-    "LabelPrefix": "Prefix",
-    "LabelPrefixHelp": "A short unique tag (1–8 characters) prepended to every item ID from this backend.",
     "LabelToken": "API Token",
     "LabelTokenHelp": "Leave blank to keep the existing token.",
-    "LabelJellyfinServerId": "Jellyfin Server ID",
     "LabelBackendUserId": "Backend User ID",
     "LabelBackendUsername": "Backend Jellyfin Username",
     "LabelBackendCredentialsHelp": "These credentials are used once to authenticate against the backend and obtain a service token. They are not stored.",
@@ -1905,5 +1902,7 @@
     "MessageAreYouSure": "Are you sure?",
     "Active": "Active",
     "Disabled": "Disabled",
+    "LabelDirectStream": "Direct Stream",
+    "LabelDirectStreamHelp": "When enabled, media is streamed directly from the backend server instead of through the proxy. This exposes the backend server address to the client. Casting is disabled when this option is active.",
     "Loading": "Loading…"
 }

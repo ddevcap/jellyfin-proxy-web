@@ -22,9 +22,8 @@ const ProxyBackendAdd = () => {
         const save = () => {
             const name = (page.querySelector('#txtName') as HTMLInputElement).value.trim();
             const rawUrl = (page.querySelector('#txtUrl') as HTMLInputElement).value.trim();
-            const prefix = (page.querySelector('#txtPrefix') as HTMLInputElement).value.trim();
 
-            if (!name || !rawUrl || !prefix) {
+            if (!name || !rawUrl) {
                 setErrorMessage(globalize.translate('MessagePleaseFillInAllFields'));
                 return;
             }
@@ -34,7 +33,7 @@ const ProxyBackendAdd = () => {
             // Prepend http:// if the user omitted the scheme
             const url = /^https?:\/\//i.test(rawUrl) ? rawUrl : `http://${rawUrl}`;
             createBackend.mutate(
-                { name, url, prefix },
+                { name, url },
                 {
                     onSuccess: () => {
                         loading.hide();
@@ -75,11 +74,6 @@ const ProxyBackendAdd = () => {
                         <Input type='text' id='txtUrl' label={globalize.translate('LabelBackendURL')} required />
                         <div className='fieldDescription'>{globalize.translate('LabelBackendURLHelp')}</div>
                     </div>
-                    <div className='inputContainer'>
-                        <Input type='text' id='txtPrefix' label={globalize.translate('LabelPrefix')} required />
-                        <div className='fieldDescription'>{globalize.translate('LabelPrefixHelp')}</div>
-                    </div>
-
                     {errorMessage && (
                         <Alert severity='error' sx={{ mt: 2 }}>
                             {errorMessage}

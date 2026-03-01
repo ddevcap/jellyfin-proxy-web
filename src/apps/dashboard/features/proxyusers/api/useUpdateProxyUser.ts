@@ -12,9 +12,11 @@ interface UpdateProxyUserParams {
 export const useUpdateProxyUser = () => {
     return useMutation({
         mutationFn: async ({ userId, data }: UpdateProxyUserParams) => {
+            /* eslint-disable @typescript-eslint/naming-convention */
             const payload: Record<string, unknown> = {};
             if (data.displayName !== undefined) payload['display_name'] = data.displayName;
             if (data.isAdmin !== undefined) payload['is_admin'] = data.isAdmin;
+            if (data.directStream !== undefined) payload['direct_stream'] = data.directStream;
 
             const url = window.ApiClient.getUrl(`proxy/users/${userId}`);
             const result = await window.ApiClient.ajax({
@@ -24,6 +26,7 @@ export const useUpdateProxyUser = () => {
                 contentType: 'application/json',
                 dataType: 'json'
             });
+            /* eslint-enable @typescript-eslint/naming-convention */
             return toProxyUser(result);
         },
         onSuccess: (_, { userId }) => {

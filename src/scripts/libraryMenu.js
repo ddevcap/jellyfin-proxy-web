@@ -164,7 +164,12 @@ function updateUserInHeader(user) {
         }
 
         if (!layoutManager.tv) {
-            headerCastButton.classList.remove('hide');
+            // In proxy mode, hide cast button when user has direct streaming enabled.
+            // The cast receiver would connect directly to the backend server.
+            const policy = user.Policy ? user.Policy : user.localUser?.Policy;
+            if (!__PROXY_MODE__ || !policy?.DirectStream) {
+                headerCastButton.classList.remove('hide');
+            }
         }
 
         const policy = user.Policy ? user.Policy : user.localUser.Policy;

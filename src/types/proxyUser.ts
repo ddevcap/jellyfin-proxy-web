@@ -4,6 +4,7 @@ export interface ProxyUser {
     username: string;
     displayName: string;
     isAdmin: boolean;
+    directStream: boolean;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -13,11 +14,13 @@ export interface CreateProxyUserRequest {
     displayName: string;
     password: string;
     isAdmin?: boolean;
+    directStream?: boolean;
 }
 
 export interface UpdateProxyUserRequest {
     displayName?: string;
     isAdmin?: boolean;
+    directStream?: boolean;
 }
 
 export interface UpdateProxyUserPasswordRequest {
@@ -31,8 +34,7 @@ export interface ProxyBackend {
     id: string;
     name: string;
     url: string;
-    jellyfinServerId: string;
-    prefix: string;
+    externalId: string;
     enabled: boolean;
     createdAt?: string;
 }
@@ -40,7 +42,6 @@ export interface ProxyBackend {
 export interface CreateProxyBackendRequest {
     name: string;
     url: string;
-    prefix: string;
 }
 
 export interface UpdateProxyBackendRequest {

@@ -10,6 +10,7 @@ const toProxyUser = (raw: any): ProxyUser => ({
     username: raw.username,
     displayName: raw.display_name,
     isAdmin: raw.is_admin,
+    directStream: raw.direct_stream ?? false,
     createdAt: raw.created_at,
     updatedAt: raw.updated_at
 });

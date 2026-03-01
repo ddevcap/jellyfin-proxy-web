@@ -163,7 +163,7 @@ const ProxyBackends = () => {
                                     </div>
                                     <div className='cardText'>{backend.name}</div>
                                     <div className='cardText cardText-secondary'>
-                                        {backend.prefix}
+                                        {backend.url}
                                         {!backend.enabled && (
                                             <span style={{ marginLeft: '0.5em', opacity: 0.6 }}>
                                                 ({globalize.translate('Disabled')})

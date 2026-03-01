@@ -10,11 +10,14 @@ import Tooltip from '@mui/material/Tooltip';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import Events from 'utils/events';
+import { useApi } from 'hooks/useApi';
 
 import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';
 import RemotePlayActiveMenu, { ID as ACTIVE_ID } from './menus/RemotePlayActiveMenu';
 
 const RemotePlayButton = () => {
+    const { user } = useApi();
+
     const [ playerInfo, setPlayerInfo ] = useState(playbackManager.getPlayerInfo());
 
     const updatePlayerInfo = useCallback(() => {
@@ -50,6 +53,14 @@ const RemotePlayButton = () => {
     const onRemotePlayActiveMenuClose = useCallback(() => {
         setRemotePlayActiveMenuAnchorEl(null);
     }, [ setRemotePlayActiveMenuAnchorEl ]);
+
+    // In proxy mode, hide the cast button when the user has direct streaming
+    // enabled. The cast receiver would connect directly to the backend server,
+    // bypassing the proxy and exposing the backend network.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (__PROXY_MODE__ && (user?.Policy as any)?.DirectStream) {
+        return null;
+    }
 
     return (
         <>
