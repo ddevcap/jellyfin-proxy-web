@@ -1,8 +1,8 @@
-# Jellyfin Proxy Web
+# Jellymux Web
 
-Custom frontend for [jellyfin-proxy](https://github.com/ddevcap/jellyfin-proxy) — a multi-backend proxy for Jellyfin.
+Custom frontend for [jellymux](https://github.com/ddevcap/jellymux) — a multi-backend proxy for Jellyfin.
 
-This is a fork of [jellyfin-web](https://github.com/jellyfin/jellyfin-web) (v10.11.6) with additional pages and UI modifications for managing proxy users and backends.
+This is a fork of [jellyfin-web](https://github.com/jellyfin/jellyfin-web) with additional pages and UI modifications for managing proxy users and backends.
 
 ## What's different?
 
@@ -32,22 +32,47 @@ PROXY_MODE=1 npm run build:development
 ### Production
 
 ```sh
+make build
+```
+
+Or manually:
+
+```sh
 npm install
 PROXY_MODE=1 npm run build:production
 ```
 
 The output is in `dist/`.
 
-### Standard Jellyfin build (no proxy features)
+## Syncing with upstream Jellyfin Web
+
+To pull in a new upstream release:
 
 ```sh
-npm install
-npm run build:production
+# Check the latest available upstream release
+make sync-upstream-check
+
+# Merge the latest upstream release into a new branch
+make sync-upstream
+
+# Or sync a specific version
+make sync-upstream TAG=v10.12.0
 ```
+
+This creates a `sync/<version>` branch where you can resolve conflicts and test before merging into `main`.
+
+## Releasing
+
+```sh
+make release VERSION=10.12.0-jellymux.1
+git push origin v10.12.0-jellymux.1
+```
+
+Pushing a `v*` tag triggers the GitHub Actions workflow to build and create a release.
 
 ## Usage
 
-The built `dist/` directory should be served as the web frontend by or alongside the jellyfin-proxy. Typically this is done by mounting it into the Jellyfin container or having the proxy serve it as static files.
+The built `dist/` directory should be served as the web frontend by or alongside jellymux. Typically this is done by mounting it into the Jellyfin container or having the proxy serve it as static files.
 
 ## License
 
